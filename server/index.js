@@ -12,14 +12,9 @@ app.use(express.urlencoded({ limit: "30mb", extended: true }))
 
 
 
-// CORS Configuration
-const corsOptions = {
-    origin: "https://dev-query-ebon.vercel.app",
-    methods: "GET,POST,PUT,DELETE",
-    credentials: true
-};
 
-app.use(cors(corsOptions));
+
+app.use(cors());
 
 
 
