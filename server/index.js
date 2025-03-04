@@ -11,7 +11,7 @@ app.use(express.json({ limit: "30mb", extended: true }));
 app.use(express.urlencoded({ limit: "30mb", extended: true }));
 
 app.use(cors({
-    origin: "https://dev-query-w38v-q1l3ggx2l-chetan-singhs-projects-ede73aa1.vercel.app/", 
+    origin: "https://dev-query-w38v.vercel.app/", 
     methods: "GET,POST,PUT,DELETE",
     allowedHeaders: "Content-Type,Authorization",
     credentials: true
