@@ -32,6 +32,8 @@ const Auth = () => {
                 const response = await dispatch(signup({ name, email, password }, navigate));
                 if (response.success) {
                     alert("✅ Signup successful! You can now log in.");
+                } else if (response.message.includes("already exists")) {
+                    alert("❌ User already exists. Please log in.");
                 } else {
                     alert(`❌ ${response.message}`);
                 }
@@ -39,6 +41,10 @@ const Auth = () => {
                 const response = await dispatch(login({ email, password }, navigate));
                 if (response.success) {
                     alert("✅ Login successful!");
+                } else if (response.message.includes("Incorrect password")) {
+                    alert("❌ Incorrect password. Please try again.");
+                } else if (response.message.includes("User not found")) {
+                    alert("❌ User not found. Please check your email or sign up.");
                 } else {
                     alert(`❌ ${response.message}`);
                 }
@@ -105,7 +111,7 @@ const Auth = () => {
                     </button>
                 </form>
                 <p>
-                    {issignup ? "Already have an account?" : "Don't have an account"}
+                    {issignup ? "Already have an account?" : "Don't have an account?"}
                     <button type='button' className='handle-switch-btn' onClick={handleswitch}>
                         {issignup ? "Log in" : "Sign up"}
                     </button>

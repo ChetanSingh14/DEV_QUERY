@@ -1,8 +1,9 @@
 import axios from "axios";
 
-const API=axios.create({
-    baseURL:"https://dev-query-6v63.onrender.com/"
+const API = axios.create({
+    baseURL: "https://dev-query-6v63.onrender.com"
 });
+
 
 API.interceptors.request.use((req)=>{
     if(localStorage.getItem("Profile")){
