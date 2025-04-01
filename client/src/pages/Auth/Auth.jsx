@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
+import { jwtDecode } from 'jwt-decode';
 import "./Auth.css";
 import icon from '../../assets/icon.png';
 import Aboutauth from './Aboutauth';
-import { signup, login } from '../../action/auth';
+import { signup, login, googleAuth } from '../../action/auth';
 
 const Auth = () => {
     const [issignup, setissignup] = useState(false);
@@ -50,6 +52,7 @@ const Auth = () => {
                 }
             }
         } catch (error) {
+            console.log('Error during google auth:', error);
             alert("❌ An error occurred. Please try again.");
         }
     };
@@ -61,11 +64,59 @@ const Auth = () => {
         setpassword("");
     };
 
+    const handleGoogleSuccess = async (credentialResponse) => {
+        try {
+            console.log('Google response:', credentialResponse);
+            const decoded = jwtDecode(credentialResponse.credential);
+            console.log('Decoded token:', decoded);
+            
+            // Extract required fields
+            const googleData = {
+                name: decoded.name,
+                email: decoded.email,
+                picture: decoded.picture
+            };
+            console.log('Sending to server:', googleData);
+
+            const response = await dispatch(googleAuth(googleData, navigate));
+            console.log('Server response:', response);
+
+            if (response?.success) {
+                alert("✅ Google login successful!");
+            } else {
+                alert(`❌ ${response?.message || 'Authentication failed'}`);
+            }
+        } catch (error) {
+            console.error('Error during google auth:', error);
+            console.error('Error details:', {
+                message: error.message,
+                stack: error.stack,
+                response: error.response?.data
+            });
+            alert("❌ An error occurred with Google login. Please try again.");
+        }
+    };
+
     return (
         <section className="auth-section">
             {issignup && <Aboutauth />}
             <div className="auth-container-2">
                 <img src={icon} alt="icon" className='login-logo' />
+                <div className="google-auth-container">
+                    <GoogleLogin
+                        onSuccess={handleGoogleSuccess}
+                        onError={() => {
+                            alert('❌ Google login failed. Please try again.');
+                        }}
+                        theme="outline"
+                        size="large"
+                        text={issignup ? "signup_with" : "signin_with"}
+                        shape="rectangular"
+                    />
+                </div>
+                <div className="auth-separator">
+                    <span>or</span>
+                </div>
                 <form onSubmit={handlesubmit}>
                     {issignup && (
                         <label htmlFor="name">

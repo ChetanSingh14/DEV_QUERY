@@ -22,7 +22,34 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgb(0 0 0 / 5%), 0 20px 48px rgb(0 0 0 / 5%),
+      0 1px 4px rgb(0 0 0 / 10%);
   }
+
+.google-auth-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 10px 0;
+}
+
+.auth-separator {
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid #e0e0e0;
+    line-height: 0.1em;
+    margin: 20px 0;
+}
+
+.auth-separator span {
+    background: white;
+    padding: 0 10px;
+    color: #666;
+    font-size: 14px;
+}
   
   .auth-container-2 form {
     width: 100%;
